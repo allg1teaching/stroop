@@ -42,6 +42,11 @@
         justify-content:center;
         align-items:center;
     }
+    .center-div
+    {
+        margin: 0 auto;
+        text-align: center;
+    }
     </style>
 </head>
 
@@ -55,7 +60,7 @@
         // append UNIX timestamp (to reduce probability of name collisions)
         var timestamp = Date.now();
         var filename = initials+timestamp+".csv";
-        var text = jsPsych.data.get().filter({trial_type: 'allg1-blindspot'}).csv();
+        var text = jsPsych.data.get().filter({trial_type: 'allg1-stroop'}).csv();
 
         // creates downloadable file containing text arg with name filename on client-side and prompts download
         var fileDL = document.createElement('a');
@@ -83,79 +88,141 @@
         }
     );
 
-    timeline2.push({
+    timeline.push({
         type: 'fullscreen',
         fullscreen_mode: true
     });
 
 
-    timeline2.push(
+    timeline.push(
         instructions = {
             type: 'instructions',
             pages: [
-                "<h1>Mapping the blind spot</h1>" +
+                // background
+                "<h1>Stroop Task</h1>" +
                 "<b>Background (1/4)</b><br><br>" +
-                "Your eyes contain a dense set of receptors that are sensitive to light energy. These receptors convert light energy into electrical energy, which eventually is transferred to your nervous system and your brain. These receptors, however, are not distributed evenly across your eye. There is a central location, called the fovea, where the receptors are very densely packed. Generally, when you stare at an object you are arranging your eyes so that the object's image falls on the foveae of your eyes. There are fewer receptors outside the fovea. In fact, in some places there are no receptors at all." +
+                "When you first learned to tie your shoelaces, you needed to think carefully through each step of the process. Now, you probably do not even think about the steps, but simply initiate a series of movements that proceed without any further influence. When a behavior or skill no longer requires direct interaction, cognitive psychologists say it is automatized.  Many behaviors can become automatized: typing, reading, writing, bicycling, piano playing, driving, etc. Automatization is interesting because it is an important part of daily life. We perform a variety of automatized behaviors quickly and effortlessly. In some cases, people report that they do not consciously know how the behavior is performed, they just will it to happen and it does happen." +
                 "<br><br>Press the right arrow key to proceed" +
                 "<br><br><b>[>]</b>",
                 "<b>Background (2/4)</b><br><br>" +
-                "There is a place in each eye where the optic nerve exits the back of the eye to send information to the brain. This 'hole' is called the optic disk. It contains no light sensitive receptors. As a result, any light that falls on this part of the eye is undetected and invisible to you. Functionally, this location on the eye is called the blind spot." +
+                "To explore properties of automatized behaviors, cognitive psychologists often put observers in a situation where an automatized response is in conflict with the desired behavior. This allows researchers to test the behind-the-scenes properties of automatized behaviors by noting their influence on more easily measured behaviors. This demonstration explores a well-known example of this type of influence, the Stroop effect." +
                 "<br><br><b>[>]</b>",
                 "<b>Background (3/4)</b><br><br>" +
-                "You have probably never noticed your blind spots (one in each eye). There are several reasons for this. First, each blind spot is far away from its eye's fovea. Because the fovea is typically where you are 'looking,' you would not generally notice that something has disappeared into a blind spot. Second, when you view the world with two eyes, one eye can compensate for the other eye's blind spot. Light that falls into the blind spot of one eye generally does not fall on the blind spot of the other eye. Third, your brain only processes the presence of information, not the absence. Your brain does not notice a 'hole' in the information it receives from the eye. It simply works with the information it receives. In a similar way, the brain does not observe that we are unable to view ultraviolet light. It has no knowledge about missing information." +
+                "Stroop (1935) noted that observers were slower to properly identify the color of ink when the ink was used to produce color names different from the color of the ink. That is, observers were slower to identify red ink when it spelled the word blue. This is an interesting finding because observers are told to not pay any attention to the word names and simply to report the color of the ink. However, this seems to be a nearly impossible task, as the name of the word seems to interfere with the observer's ability to report the color of the ink." +
                 "<br><br><b>[>]</b>",
                 "<b>Background (4/4)</b><br><br>" +
-                "With the proper experiment, however, it is possible to identify and map the blind spot, which is the purpose of this experiment. You will probably be surprised at how large the blind spot is. It covers a large part of your visual field. The experiment used here is similar to a test used by eye doctors to identify visual scotomas (damaged spots in the retina of your eye). Should you consistently find 'holes' in your data other than the blind spot, you may want to see an eye doctor." +
+                "A common explanation for the Stroop effect is that observers (especially college undergraduates) have automatized the process of reading. Thus, the color names of the words are always processed very quickly, regardless of the color of the ink. On the other hand, identifying colors is not a task that observers have to report on very often and, because it is not automatized, it is slower. The fast and automatic processing of the color name of the word interferes with the reporting of the ink color." +
                 "<br><br><b>[>]</b>",
+                // instructions
                 "<b>Instructions (1/4)</b><br><br>" +
-                "A small fixation square will appear on the left of the screen. The experiment is designed to map the blind spot of your right eye. Close your left eye or cover it with your hand or a patch. Fix on the small square with your right eye. Try to sit so that your head is centered directly in front of the fixation square. A white dot will appear somewhere on the screen. Your task is to report whether you see the white dot or not, all while keeping your right eye fixed on the fixation square. " +
+                "Start a trial by pressing the space bar. After a short time (less than a second) a word (YELLOW, GREEN, or PURPLE) will appear on the screen, and the word will be displayed in a yellow, green, or purple color. Your task is to classify, as quickly as possible, the font color, regardless of the word name. If the font color is yellow, press the left arrow (<) key; for green, press the up arrow (^) key; for purple, press the right arrow (>) key. It may take a bit of practice to remember which key corresponds to which font color. " +
                 "<br><br><b>[>]</b>",
                 "<b>Instructions (2/4)</b><br><br>" +
-                "If you see the dot, press the <b>n</b> key. If you do not see the dot, press the <b>m</b> key. Either of the keys you press will produce written feedback at the location of the fixation point. This is simply to indicate that the computer received your response." +
+                "After pressing a key to identify the font color, you will receive feedback on whether you were correct. If you find you are making lots of mistakes, you should slow down or make certain you understood which key goes with which font color. Press the space bar to start the next trial." +
                 "<br><br><b>[>]</b>",
                 "<b>Instructions (3/4)</b><br><br>" +
-                "There are a total of 289 trials. That may sound like a lot, but each trial takes only a couple of seconds. You can take a break if you wish, but try to stay seated in the same position when you resume the experiment. If you move around, your blind spot will move with you and the data will be a mix of the two positions you take. Also, be careful to make accurate judgments of whether you see or do not see the dot. If you try to go too fast, the computer will warn you to slow down. Most importantly, keep your right eye fixed on the small fixation square. If you move your eye around, be sure to go back to the fixation square before making your judgment about seeing or not seeing a dot." +
+                "There are 45 trials, 30 in which the font colors and word names are different, and 15 in which the font colors and color names match (e.g., the word YELLOW in yellow font color). You will start with a couple of practice trials to get accustomed to the task." +
                 "<br><br><b>[>]</b>",
                 "<b>Instructions (3/4)</b><br><br>" +
-                "After you've completed the experiment you can view a visualization of your blind spot." +
+                "After you've completed the experiment you can view your results and download your data in text (CSV) format." +
                 "<br><br><b>[>]</b>"
             ]
         }
     )
-    
-    var trialFactor = 1;  // 10
 
     // store a bunch of stroop trials in an array
-    var stroopTrials = [];
-    for (var i=0; i<4*trialFactor; i++){
+    var stroopTrials     = [];
+    var practiceTrials   = [];
+    var practiceMatch    = 4;
+    var practiceMismatch = 2;
+    var mainMatch        = 30;
+    var mainMismatch     = 15;
+    var enablePractice   = true;
+
+    // mismatch trials (text color != word on screen)
+    for (var i=0; i<mainMismatch; i++){
         stroopTrials.push(
         stroop = {
             type: 'allg1-stroop',
             cond: 'mismatch',
             isPractice: false,
-            totalTrials: 100
-        } );   
+            totalTrials: mainMismatch + mainMatch
+        } );
+
+        if (i < practiceMismatch && enablePractice){
+            practiceTrials.push(
+                stroop = {
+                type: 'allg1-stroop',
+                cond: 'mismatch',
+                isPractice: true,
+                totalTrials: practiceMatch + practiceMismatch
+        } );
+        }   
     }
-    for (var i=0; i<6*trialFactor; i++){
+
+    // match trials (text color = word on screen)
+    for (var i=0; i<mainMatch; i++){
         stroopTrials.push(
         stroop = {
             type: 'allg1-stroop',
             cond: 'match',
             isPractice: false,
-            totalTrials: 100
+            totalTrials: mainMismatch + mainMatch
         } );
+
+        if (i < practiceMatch && enablePractice){
+            practiceTrials.push(
+                stroop = {
+                type: 'allg1-stroop',
+                cond: 'match',
+                isPractice: true,
+                totalTrials: practiceMatch + practiceMismatch
+        } );
+        }   
     }
 
     stroopTrials = psyRand.shuffleNoRepeats(stroopTrials);
-    stroopTrials = stroopTrials.map(function(x){ return [{type: "html-keyboard-response"}, x] })  // add fix cross
+    stroopTrials = stroopTrials.map(function(x){ return [{type: "html-keyboard-response", choices: ['space']}, x] })  // add fix cross
     for (var i=0; i<stroopTrials.length; i++){
         stroopTrials[i][0].stimulus = i+1 + "/" + stroopTrials.length + "<div style='font-size:100px;color:#ffffff;padding:50px'>+</div>" +
-                    "<span style='color:yellow'>H, </span>" +
-                    "<span style='color:green'>J, </span>" +
-                    "<span style='color:purple'>K</span>"
+                    "<span style='color:green;font-size:60px'>^</span>" +
+                    "<br><span style='color:yellow;font-size:60px'>\<</span>" +
+                    "&emsp;&emsp;" +
+                    "<span style='color:purple;font-size:60px'>\></span>"
     }
     stroopTrials = stroopTrials.flat();  // add fix cross before trials
+
+    practiceTrials = psyRand.shuffleNoRepeats(practiceTrials);
+    practiceTrials = practiceTrials.map(function(x){ return [{type: "html-keyboard-response", choices: ['space']}, x] })  // add fix cross
+    for (var i=0; i<practiceTrials.length; i++){
+        practiceTrials[i][0].stimulus = i+1 + "/" + practiceTrials.length + "<div style='font-size:100px;color:#ffffff;padding:50px'>+</div>" +
+                    "<span style='color:green;font-size:60px'>^</span>" +
+                    "<br><span style='color:yellow;font-size:60px'>\<</span>" +
+                    "&emsp;&emsp;" +
+                    "<span style='color:purple;font-size:60px'>\></span>"
+    }
+    practiceTrials = practiceTrials.flat();  // add fix cross before trials
+
+    timeline = timeline.concat(practiceTrials);
+
+    // practice finished msg
+    timeline.push(
+        practiceFinished = {
+            type: 'html-keyboard-response',
+            stimulus: "You have completed the practice trials.<br><br>Press <b>P</b> to proceed to the main task.",
+            choices: ['p']
+        }
+    )
+
     timeline = timeline.concat(stroopTrials);  // append stroop trials to timeline
+
+    timeline.push(
+        practiceFinished = {
+            type: 'html-keyboard-response',
+            stimulus: "You have completed the experiment.<br><br>Press <b>P</b> to view your results.",
+            choices: ['p']
+        }
+    )
 
     timeline.push(
         stroop = {

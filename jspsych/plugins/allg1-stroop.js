@@ -30,8 +30,8 @@
         var cond        = trial.cond;
         var totalTrials = trial.totalTrials;
 
-        var colors = ['yellow', 'green', 'purple']; 
-        var keys   = [72,        74,      75     ];  // h j k
+        var colors = ['YELLOW', 'GREEN', 'PURPLE']; 
+        var keys   = [37,        38,      39     ];  // h j k
 
         var indices = jsPsych.randomization.sampleWithoutReplacement([0,1,2], 2)
         var color1  = colors[indices[0]];  // word that is being displayed
@@ -53,15 +53,28 @@
             cond: cond,
             color1: color1,
             color2: color2,
-            trialNumber: trialNumber
+            trialNumber: trialNumber,
+            isPractice: trial.isPractice
         }
 
         var endTrial = function(info){
-            trialData["RT"]  = info.rt;
-            trialData["acc"] = info.key == keys[correctIndex];
-            display_element.removeChild(stim);
+            trialData["RT"]      = info.rt;
+            trialData["acc"]     = info.key == keys[correctIndex];
+            trialData["respKey"] = info.key;
+            stim.style.color = "black";
+            if (info.key == keys[correctIndex]){
+                stim.innerHTML = "correct";
+            }
+            else {
+                stim.innerHTML = "incorrect";
+            }
             trialNumber++;
-            jsPsych.finishTrial(trialData);
+
+            jsPsych.pluginAPI.setTimeout(function(){
+                display_element.removeChild(stim);
+                jsPsych.finishTrial(trialData);       
+            },
+            350);
         }
 
         var stim;
@@ -80,7 +93,7 @@
 
                 jsPsych.pluginAPI.getKeyboardResponse({
                     callback_function: endTrial,
-                    valid_responses: ['h', 'j', 'k'],
+                    valid_responses: [37, 38, 39],
                     rt_method: 'performance',
                     persist: false,
                     allow_held_key: false
